@@ -27,12 +27,19 @@ sealed abstract class HttpCharsetRange extends Renderable {
 case class HttpCharset private[http] (value: String)(val aliases: String*)
     extends HttpCharsetRange with LazyValueBytesRenderable {
 
-  @transient private[this] var _nioCharset: Charset = Charset.forName(value)
-  def nioCharset: Charset = _nioCharset
+  @transient private[this] var _nioCharset: Option[Charset] =
+    try { Some(Charset.forName(value)) }
+    catch {
+      case e: java.nio.charset.UnsupportedCharsetException ⇒ None
+    }
+
+  def nioCharset: Charset = _nioCharset.getOrElse(throw new java.nio.charset.UnsupportedCharsetException(value))
 
   private def readObject(in: java.io.ObjectInputStream): Unit = {
     in.defaultReadObject()
-    _nioCharset = Charset.forName(value)
+    _nioCharset = try { Some(Charset.forName(value)) } catch {
+      case e: java.nio.charset.UnsupportedCharsetException ⇒ None
+    }
   }
 
   def matches(charset: HttpCharset) = this == charset
