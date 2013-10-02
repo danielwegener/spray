@@ -41,7 +41,7 @@ class MultipartMarshallersSpec extends Specification with MultipartMarshallers {
         HttpEntity(
           contentType = ContentType(`multipart/mixed` withBoundary randomBoundary),
           string = s"""|--${randomBoundary}
-                     |--${randomBoundary}--""".stripMargin.replace(EOL, "\r\n"))
+                     |--${randomBoundary}--""".stripMargin.replace("\n", "\r\n"))
       }
     }
 
@@ -60,7 +60,7 @@ class MultipartMarshallersSpec extends Specification with MultipartMarshallers {
             |Content-Type: text/plain; charset=UTF-8
             |
             |test@there.com
-            |--${randomBoundary}--""".stripMargin.replace(EOL, "\r\n"))
+            |--${randomBoundary}--""".stripMargin.replace("\n", "\r\n"))
       }
     }
 
@@ -85,7 +85,7 @@ class MultipartMarshallersSpec extends Specification with MultipartMarshallers {
             |Content-Type: application/octet-stream
             |
             |filecontent
-            |--${randomBoundary}--""".stripMargin.replace(EOL, "\r\n"))
+            |--${randomBoundary}--""".stripMargin.replace("\n", "\r\n"))
       }
     }
   }
@@ -107,7 +107,7 @@ class MultipartMarshallersSpec extends Specification with MultipartMarshallers {
                         |Content-Type: text/xml; charset=UTF-8
                         |
                         |<int>42</int>
-                        |--${randomBoundary}--""".stripMargin.replace(EOL, "\r\n"))
+                        |--${randomBoundary}--""".stripMargin.replace("\n", "\r\n"))
         }
     }
 
@@ -139,7 +139,7 @@ class MultipartMarshallersSpec extends Specification with MultipartMarshallers {
                        |name,age
                        |"John Doe",20
                        |
-                       |--${randomBoundary}--""".stripMargin.replace(EOL, "\r\n"))
+                       |--${randomBoundary}--""".stripMargin.replace("\n", "\r\n"))
         }
     }
 

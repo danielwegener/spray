@@ -61,9 +61,9 @@ class FormDataUnmarshallersSpec extends Specification {
            |Content-Transfer-Encoding: binary
            |
            |filecontent
-           |--12345--""".stripMargin).as[MultipartContent] === Right {
+           |--12345--""".stripMargin.replace("\n","\r\n")).as[MultipartContent] === Right {
           MultipartContent(
-            Seq(
+            Vector(
               BodyPart(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "first part, with a trailing EOL" + EOL)),
               BodyPart(
                 HttpEntity(`application/octet-stream`, "filecontent"),

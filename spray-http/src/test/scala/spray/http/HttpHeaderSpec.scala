@@ -28,7 +28,6 @@ import parser.HttpParser
 
 class HttpHeaderSpec extends Specification {
 
-  val EOL = System.getProperty("line.separator")
   val `application/vnd.spray` = MediaTypes.register(MediaType.custom("application/vnd.spray"))
 
   def is =
@@ -200,7 +199,7 @@ class HttpHeaderSpec extends Specification {
                          realm="testrealm@host.com",
                          qop="auth,auth-int",
                          nonce=dcd98b7102dd2f0e8b11d0f600bfb0c093,
-                         opaque=5ccc069c403ebaf9f0171e9517f40e41""".replace(EOL, "\r\n") !
+                         opaque=5ccc069c403ebaf9f0171e9517f40e41""".replace("\n", "\r\n") !
       example(`WWW-Authenticate`(HttpChallenge("Digest", "testrealm@host.com", Map("qop" -> "auth,auth-int", "nonce" -> "dcd98b7102dd2f0e8b11d0f600bfb0c093", "opaque" -> "5ccc069c403ebaf9f0171e9517f40e41"))), fix(_).replace(", ", ","))_ ^
       "WWW-Authenticate: Basic realm=WallyWorld,attr=\"val>ue\", Fancy realm=yeah" !
       example(`WWW-Authenticate`(HttpChallenge("Basic", "WallyWorld", Map("attr" -> "val>ue")), HttpChallenge("Fancy", "yeah")))_ ^
